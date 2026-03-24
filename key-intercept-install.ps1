@@ -88,7 +88,7 @@ try {
 
 # Ensure we are in the plugin destination directory for subsequent operations
 try {
-    Set-Location -Path $PLUGIN_DEST -ErrorAction Stop
+    Set-Location -Path $VENCOORD_DIR -ErrorAction Stop
     git restore package.json
     git restore pnpm-lock.yaml
     git pull
