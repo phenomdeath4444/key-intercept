@@ -277,10 +277,10 @@ export function applyBimbo(msg: string, bimbo_end: Date, bimbo_word_length: numb
         return msg;
     }
     let output = "";
-    const pronouns = ["i", "is", "you", "he", "she", "it", "we", "they"];
+    const pronouns = ["i", "you", "he", "she", "it", "we", "they"];
     const maxWordLength = bimbo_word_length;
     const likeChance = 0.1;
-    const gargle_words = ["like", "hehe", "uhh", "totally", "so dumbb"];
+    const gargle_words = ["like", "hehe", "uhh", "totally", "so dumbb", "ummm", "hhhhh"];
     for (const word of msg.split(" ")) {
         let changed = false;
         if (!word_is_link(word, verbose)) {
@@ -412,9 +412,10 @@ export function applyUWU(msg: string, uwu_end: Date, verbose: boolean = true) {
             continue;
         }
         word = word.replace(new RegExp("th", "gi"), "d");
-        word = word.replace(new RegExp("r", "gi"), "w");
+        word = word.replace(new RegExp("r|l", "gi"), "w");
         word = word.replace(new RegExp("u", "gi"), "uw");
-
+        word = word.replace(new RegExp("n([aeiou)", "gi"), "ny$1")
+        word = word.replace(new RegExp("ove", "gi"), "uv")
         output += word + " "
     }
 
