@@ -191,7 +191,7 @@ export function applyRules(msg: string, rules: Rule[], rules_end: Date, verbose:
                 return match;
             }
             if (verbose) { console.log(`Rule Applied ${match.replace(new RegExp(temp, "i"), rule.rule_replacement)}`); }
-            return match.replace(new RegExp(temp, "i"), rule.rule_replacement);
+            return match.normalize("NFKC").replace(new RegExp(temp, "i"), rule.rule_replacement);
         });
         if (verbose) { console.log(`Applying rule: ${temp}`); }
     }
