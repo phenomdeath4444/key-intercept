@@ -184,7 +184,7 @@ export function applyRules(msg: string, rules: Rule[], rules_end: Date, verbose:
             if (verbose) { console.log("Rule disabled, skipping"); }
             continue;
         }
-        const temp = new RegExp(rule.rule_regex.toString().replaceAll("\\\\", "\\"));
+        const temp = new RegExp(rule.rule_regex.toString().normalize("NFKC").replaceAll("\\\\", "\\"));
         output = output.replace(new RegExp(temp, "gi"), (match: string, ...args): string => {
             if (Math.random() > rule.chance_to_apply) {
                 if (verbose) { console.log(`Skipping match ${rule.chance_to_apply}`); }
