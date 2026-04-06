@@ -414,7 +414,7 @@ export function applyUWU(msg: string, uwu_end: Date, verbose: boolean = true) {
         word = word.replace(new RegExp("th", "gi"), "d");
         word = word.replace(new RegExp("r|l", "gi"), "w");
         word = word.replace(new RegExp("u", "gi"), "uw");
-        word = word.replace(new RegExp("n([aeiou)", "gi"), "ny$1")
+        word = word.replace(new RegExp("n([aeiou])", "gi"), "ny$1")
         word = word.replace(new RegExp("ove", "gi"), "uv")
         output += word + " "
     }
