@@ -56,7 +56,7 @@ export async function getData() {
         event: "*",
         schema: "public",
         table: "Config"
-    }, async payload => {
+    }, async () => {
         await getConfig();
     }).subscribe();
 
@@ -64,7 +64,7 @@ export async function getData() {
         event: "*",
         schema: "public",
         table: "Rules"
-    }, async payload => {
+    }, async () => {
         await getRules();
     }).subscribe();
 
@@ -72,7 +72,7 @@ export async function getData() {
         event: "*",
         schema: "public",
         table: "Server_Whitelist_Items"
-    }, async payload => {
+    }, async () => {
         await getWhitelist();
     }).subscribe();
 
@@ -80,7 +80,7 @@ export async function getData() {
         event: "*",
         schema: "public",
         table: "Config"
-    }, async payload => {
+    }, async () => {
         await getConfig();
         await getPetWords();
     }).subscribe();
