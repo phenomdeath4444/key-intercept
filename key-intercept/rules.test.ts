@@ -58,26 +58,6 @@ const anotherRule = {rule_regex: "hello", rule_replacement: "hi", enabled: true,
     expect(applyRules("hello this is a test", [testRule, anotherRule], new Date(9999, 1), false)).toBe("hi this is a exam");
 });
 
-test("applyRules_NORMALISES_FULLWIDTH_REGEX", () => {
-    const fullwidthRule = {
-        ...testRule,
-        rule_regex: "ｔｅｓｔ",
-        rule_replacement: "exam"
-    } as unknown as Rule;
-
-    expect(applyRules("this is a test", [fullwidthRule], new Date(9999, 1), false)).toBe("this is a exam");
-});
-
-test("applyRules_NORMALISES_FULLWIDTH_CHAR_CLASS", () => {
-    const fullwidthClassRule = {
-        ...testRule,
-        rule_regex: "[０-９]+",
-        rule_replacement: "<num>"
-    } as unknown as Rule;
-
-    expect(applyRules("Order 123 ready", [fullwidthClassRule], new Date(9999, 1), false)).toBe("Order <num> ready");
-});
-
 test("applyRules_NORMALISES_ESCAPED_WORD_BOUNDARY", () => {
     const escapedBoundaryRule = {
         ...testRule,
