@@ -277,7 +277,7 @@ export function applyBimbo(msg: string, bimbo_end: Date, bimbo_word_length: numb
         return msg;
     }
     let output = "";
-    const pronouns = ["i", "you", "he", "she", "it", "we", "they"];
+    const pronouns = ["i", "you", "he", "she", "it", "we", "they", "is"];
     const maxWordLength = bimbo_word_length;
     const likeChance = 0.1;
     const gargle_words = ["like", "hehe", "uhh", "totally", "so dumbb", "ummm", "hhhhh"];
