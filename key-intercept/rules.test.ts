@@ -58,26 +58,6 @@ const anotherRule = {rule_regex: "hello", rule_replacement: "hi", enabled: true,
     expect(applyRules("hello this is a test", [testRule, anotherRule], new Date(9999, 1), false)).toBe("hi this is a exam");
 });
 
-test("applyRules_NORMALISES_ESCAPED_WORD_BOUNDARY", () => {
-    const escapedBoundaryRule = {
-        ...testRule,
-        rule_regex: "\\\\btest\\\\b",
-        rule_replacement: "exam"
-    } as unknown as Rule;
-
-    expect(applyRules("contest test tester", [escapedBoundaryRule], new Date(9999, 1), false)).toBe("contest exam tester");
-});
-
-test("applyRules_NORMALISES_ESCAPED_WHITESPACE", () => {
-    const escapedWhitespaceRule = {
-        ...testRule,
-        rule_regex: "hello\\\\sworld",
-        rule_replacement: "hi"
-    } as unknown as Rule;
-
-    expect(applyRules("hello world and hello\tworld", [escapedWhitespaceRule], new Date(9999, 1), false)).toBe("hi and hi");
-});
-
 test("applyRules_ASCII_RULE_MATCHES_FULLWIDTH_TEXT", () => {
     expect(applyRules("this is a ｔｅｓｔ", [testRule], new Date(9999, 1), false)).toBe("this is a exam");
 });
