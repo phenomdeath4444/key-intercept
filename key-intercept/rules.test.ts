@@ -57,3 +57,19 @@ test("applyRules_MULTIPLE_RULES", () => {
 const anotherRule = {rule_regex: "hello", rule_replacement: "hi", enabled: true, chance_to_apply: 100, id: BigInt(0), config_id: BigInt(0), created_at: new Date(0, 1), updated_at: new Date(0, 1) } as Rule;
     expect(applyRules("hello this is a test", [testRule, anotherRule], new Date(9999, 1), false)).toBe("hi this is a exam");
 });
+
+test("applyRules_ASCII_RULE_MATCHES_FULLWIDTH_TEXT", () => {
+    expect(applyRules("this is a ｔｅｓｔ", [testRule], new Date(9999, 1), false)).toBe("this is a exam");
+});
+
+test("applyRules_ASCII_RULE_MATCHES_MATH_BOLD_TEXT", () => {
+    expect(applyRules("this is a 𝐭𝐞𝐬𝐭", [testRule], new Date(9999, 1), false)).toBe("this is a exam");
+});
+
+test("applyRules_ASCII_RULE_MATCHES_MATH_MONOSPACE_TEXT", () => {
+    expect(applyRules("this is a 𝚝𝚎𝚜𝚝", [testRule], new Date(9999, 1), false)).toBe("this is a exam");
+});
+
+test("applyRules_ASCII_RULE_MATCHES_MATH_FRAKTUR_TEXT", () => {
+    expect(applyRules("this is a 𝖙𝖊𝖘𝖙", [testRule], new Date(9999, 1), false)).toBe("this is a exam");
+});

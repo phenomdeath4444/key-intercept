@@ -56,7 +56,7 @@ export async function getData() {
         event: "*",
         schema: "public",
         table: "Config"
-    }, async payload => {
+    }, async () => {
         await getConfig();
     }).subscribe();
 
@@ -64,7 +64,7 @@ export async function getData() {
         event: "*",
         schema: "public",
         table: "Rules"
-    }, async payload => {
+    }, async () => {
         await getRules();
     }).subscribe();
 
@@ -72,7 +72,7 @@ export async function getData() {
         event: "*",
         schema: "public",
         table: "Server_Whitelist_Items"
-    }, async payload => {
+    }, async () => {
         await getWhitelist();
     }).subscribe();
 
@@ -80,7 +80,7 @@ export async function getData() {
         event: "*",
         schema: "public",
         table: "Config"
-    }, async payload => {
+    }, async () => {
         await getConfig();
         await getPetWords();
     }).subscribe();
@@ -178,7 +178,7 @@ export function applyRules(msg: string, rules: Rule[], rules_end: Date, verbose:
     if (!shouldApplyRules(rules_end, verbose)) {
         return msg;
     }
-    let output = msg;
+    let output = msg.normalize("NFKC");
     for (const rule of rules) {
         if (!rule.enabled) {
             if (verbose) { console.log("Rule disabled, skipping"); }
@@ -277,10 +277,10 @@ export function applyBimbo(msg: string, bimbo_end: Date, bimbo_word_length: numb
         return msg;
     }
     let output = "";
-    const pronouns = ["i", "is", "you", "he", "she", "it", "we", "they"];
+    const pronouns = ["i", "you", "he", "she", "it", "we", "they", "is"];
     const maxWordLength = bimbo_word_length;
     const likeChance = 0.1;
-    const gargle_words = ["like", "hehe", "uhh", "totally", "so dumbb"];
+    const gargle_words = ["like", "hehe", "uhh", "totally", "so dumbb", "ummm", "hhhhh"];
     for (const word of msg.split(" ")) {
         let changed = false;
         if (!word_is_link(word, verbose)) {
@@ -412,9 +412,10 @@ export function applyUWU(msg: string, uwu_end: Date, verbose: boolean = true) {
             continue;
         }
         word = word.replace(new RegExp("th", "gi"), "d");
-        word = word.replace(new RegExp("r", "gi"), "w");
+        word = word.replace(new RegExp("r|l", "gi"), "w");
         word = word.replace(new RegExp("u", "gi"), "uw");
-
+        word = word.replace(new RegExp("n([aeiou])", "gi"), "ny$1")
+        word = word.replace(new RegExp("ove", "gi"), "uv")
         output += word + " "
     }
 
