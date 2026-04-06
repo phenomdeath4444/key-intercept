@@ -178,13 +178,13 @@ export function applyRules(msg: string, rules: Rule[], rules_end: Date, verbose:
     if (!shouldApplyRules(rules_end, verbose)) {
         return msg;
     }
-    let output = msg;
+    let output = msg.normalize("NFKC");
     for (const rule of rules) {
         if (!rule.enabled) {
             if (verbose) { console.log("Rule disabled, skipping"); }
             continue;
         }
-        const temp = new RegExp(rule.rule_regex.toString().normalize("NFKC").replaceAll("\\\\", "\\"));
+        const temp = new RegExp(rule.rule_regex.toString().replaceAll("\\\\", "\\"));
         output = output.replace(new RegExp(temp, "gi"), (match: string, ...args): string => {
             if (Math.random() > rule.chance_to_apply) {
                 if (verbose) { console.log(`Skipping match ${rule.chance_to_apply}`); }

@@ -57,3 +57,59 @@ test("applyRules_MULTIPLE_RULES", () => {
 const anotherRule = {rule_regex: "hello", rule_replacement: "hi", enabled: true, chance_to_apply: 100, id: BigInt(0), config_id: BigInt(0), created_at: new Date(0, 1), updated_at: new Date(0, 1) } as Rule;
     expect(applyRules("hello this is a test", [testRule, anotherRule], new Date(9999, 1), false)).toBe("hi this is a exam");
 });
+
+test("applyRules_NORMALISES_FULLWIDTH_REGEX", () => {
+    const fullwidthRule = {
+        ...testRule,
+        rule_regex: "ｔｅｓｔ",
+        rule_replacement: "exam"
+    } as unknown as Rule;
+
+    expect(applyRules("this is a test", [fullwidthRule], new Date(9999, 1), false)).toBe("this is a exam");
+});
+
+test("applyRules_NORMALISES_FULLWIDTH_CHAR_CLASS", () => {
+    const fullwidthClassRule = {
+        ...testRule,
+        rule_regex: "[０-９]+",
+        rule_replacement: "<num>"
+    } as unknown as Rule;
+
+    expect(applyRules("Order 123 ready", [fullwidthClassRule], new Date(9999, 1), false)).toBe("Order <num> ready");
+});
+
+test("applyRules_NORMALISES_ESCAPED_WORD_BOUNDARY", () => {
+    const escapedBoundaryRule = {
+        ...testRule,
+        rule_regex: "\\\\btest\\\\b",
+        rule_replacement: "exam"
+    } as unknown as Rule;
+
+    expect(applyRules("contest test tester", [escapedBoundaryRule], new Date(9999, 1), false)).toBe("contest exam tester");
+});
+
+test("applyRules_NORMALISES_ESCAPED_WHITESPACE", () => {
+    const escapedWhitespaceRule = {
+        ...testRule,
+        rule_regex: "hello\\\\sworld",
+        rule_replacement: "hi"
+    } as unknown as Rule;
+
+    expect(applyRules("hello world and hello\tworld", [escapedWhitespaceRule], new Date(9999, 1), false)).toBe("hi and hi");
+});
+
+test("applyRules_ASCII_RULE_MATCHES_FULLWIDTH_TEXT", () => {
+    expect(applyRules("this is a ｔｅｓｔ", [testRule], new Date(9999, 1), false)).toBe("this is a exam");
+});
+
+test("applyRules_ASCII_RULE_MATCHES_MATH_BOLD_TEXT", () => {
+    expect(applyRules("this is a 𝐭𝐞𝐬𝐭", [testRule], new Date(9999, 1), false)).toBe("this is a exam");
+});
+
+test("applyRules_ASCII_RULE_MATCHES_MATH_MONOSPACE_TEXT", () => {
+    expect(applyRules("this is a 𝚝𝚎𝚜𝚝", [testRule], new Date(9999, 1), false)).toBe("this is a exam");
+});
+
+test("applyRules_ASCII_RULE_MATCHES_MATH_FRAKTUR_TEXT", () => {
+    expect(applyRules("this is a 𝖙𝖊𝖘𝖙", [testRule], new Date(9999, 1), false)).toBe("this is a exam");
+});
